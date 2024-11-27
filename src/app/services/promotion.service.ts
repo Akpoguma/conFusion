@@ -1,0 +1,24 @@
+import { Injectable } from '@angular/core';
+import { Promotion } from '../shared/promotion';
+import { PROMOTIONS } from '../shared/PROMOTIONS';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PromotionService {
+
+  constructor() { }
+
+  getPromotions(): Promotion [] {
+    return PROMOTIONS
+  }
+
+  getPromotion(): Promotion {
+    return PROMOTIONS.filter((promo) => promo.id)[0]
+  }
+
+  getFeaturedPromotion(): Promotion {
+    return PROMOTIONS.filter((promotion) =>promotion.featured)[0]
+  }
+}
