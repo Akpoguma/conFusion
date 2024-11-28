@@ -15,7 +15,7 @@ export class LoginComponent {
 
   onSubmit(){
     console.log('User: ', this.user);
-    this.dialogRef.close
+    this.dialogRef.close()
 
   }
 
