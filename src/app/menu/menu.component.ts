@@ -10,17 +10,17 @@ import { DishService } from '../services/dish.service';
   styleUrl: './menu.component.scss',
 })
 export class MenuComponent implements OnInit {
-  dishes!: Dish [];
+  dishes!: Dish[];
   selectedDish!: Dish;
 
-  constructor(private dishService:DishService){}
+  constructor(private dishService: DishService) { }
 
   ngOnInit(): void {
-    this.dishes =this.dishService.getDishes()
-    
+    this.dishService.getDishes().then((dishes) => this.dishes = dishes)
+
   }
-  onSelect(dish: Dish){
+  onSelect(dish: Dish) {
     this.selectedDish = dish
   }
-   
+
 }
