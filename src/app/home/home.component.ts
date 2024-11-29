@@ -26,7 +26,7 @@ export class HomeComponent {
     private leaderService: LeaderService){}
 
   ngOnInit(){
-    this.dishservice.getFeaturedDish().then((dish)=>this.dish =dish);
+    this.dishservice.getFeaturedDish().subscribe((dish)=>this.dish= dish);
     this.promotionService.getFeaturedPromotion().then((promotion)=> this.promotion=promotion);
     this.leaderService.getFeaturedLeader().then((featured)=> this.featured = featured);
   }
