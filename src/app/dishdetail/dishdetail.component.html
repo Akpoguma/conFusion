@@ -14,18 +14,21 @@
           <h3 *ngIf="dish">{{ dish.name | uppercase }}</h3>
         </mat-card-title>
       </mat-card-header>
-      <img mat-card-image src="{{ dish.image }}" />
+      <img mat-card-image src="{{BaseURL + dish.image }}" />
       <mat-card-content>
         <p>{{ dish.description }}</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button [routerLink]="['/dishdetail', prev]"><span class="fa fa-chevron-left fa-lg"></span></button>
+        <button mat-button [routerLink]="['/dishdetail', prev]">
+          <span class="fa fa-chevron-left fa-lg"></span>
+        </button>
 
         <button mat-button (click)="goBack()">BACK</button>
         <button mat-button>LIKE</button>
         <button mat-button>SHARE</button>
-        <button mat-button [routerLink]="['/dishdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
-
+        <button mat-button [routerLink]="['/dishdetail', next]">
+          <span class="fa fa-chevron-right fa-lg"></span>
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>
@@ -45,4 +48,63 @@
     <mat-spinner></mat-spinner>
     <h4>Loading... Please Wait</h4>
   </div>
+  <div *ngIf="commentForm">
+    <h3>Preview</h3>
+    <p>{{ commentForm.value["author"] }}</p>
+    <P>{{ commentForm.value["rating"] }} Star(s)</P>
+
+    <P>{{ commentForm.value["comment"] }}</P>
+  </div>
+  <form
+    novalidate
+    [formGroup]="commentForm"
+    #cform="ngForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <p>
+      <mat-form-field class="half-width">
+        <input
+          matInput
+          formControlName="author"
+          placeholder="Name"
+          type="text"
+          required
+        />
+        <mat-error *ngIf="formErrors['author']">{{
+          formErrors["author"]
+        }}</mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-slider
+        min="1"
+        max="5"
+        step="1"
+        showTickMarks
+        discrete
+        [displayWith]="formatLabel"
+      >
+        <input matSliderThumb formControlName="rating" />
+      </mat-slider>
+    </p>
+    <p>
+      <mat-form-field class="full-width">
+        <textarea
+          matInput
+          formControlName="comment"
+          placeholder="Your Comment"
+          rows="12"
+        >
+        </textarea>
+      </mat-form-field>
+    </p>
+    <button
+      type="submit"
+      mat-button
+      class="background-primary text-floral-white"
+    >
+      Submit
+    </button>
+  </form>
 </div>
