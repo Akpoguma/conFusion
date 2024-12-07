@@ -24,6 +24,7 @@ export class DishdetailComponent {
   dishIds!: string[];
   prev!: string;
   next!: string;
+  dishCopy!:Dish
 
   commentForm!: FormGroup;
   comment!: Comment
@@ -59,7 +60,7 @@ export class DishdetailComponent {
   ngOnInit() {
     this.dishService.getDishIds().subscribe((dishIds) => this.dishIds = dishIds);
     this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-      .subscribe((dish) => { this.dish = dish; this.setPrevNext(dish.id) })
+      .subscribe((dish) => { this.dish = dish; this.dishCopy = dish, this.setPrevNext(dish.id) })
   }
 
   goBack(): void {
@@ -107,6 +108,9 @@ export class DishdetailComponent {
 
   onSubmit() {
     this.comment = this.commentForm.value;
+    this.dishCopy.comments.push(this.comment);
+    this.dishService.putDish(this.dishCopy)
+    .subscribe((dish)=>{this.dish =dish; this.dishCopy = dish})
     this.commentForm.reset({
       rating: 5,
       comment: '',

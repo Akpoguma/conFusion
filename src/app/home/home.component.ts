@@ -19,6 +19,7 @@ export class HomeComponent {
   dish!: Dish;
   promotion!: Promotion;
   featured!: Leader;
+  errMess!:string;
 
 
   constructor(private dishservice: DishService,
@@ -27,7 +28,7 @@ export class HomeComponent {
     @Inject('BaseURL') public BaseURL:string) { }
 
   ngOnInit() {
-    this.dishservice.getFeaturedDish().subscribe((dish) => this.dish = dish);
+    this.dishservice.getFeaturedDish().subscribe((dish) => this.dish = dish, (errmsg)=> this.errMess =<any> errmsg);
     this.promotionService.getFeaturedPromotion().then((promotion) => this.promotion = promotion);
     this.leaderService.getFeaturedLeader().then((featured) => this.featured = featured);
     console.log(this.BaseURL +this.dish.image)
