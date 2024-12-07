@@ -5,6 +5,7 @@ import { DishService } from '../services/dish.service';
 import { PromotionService } from '../services/promotion.service';
 import { LeaderService } from '../services/leader.service';
 import { Leader } from '../shared/leader';
+import { flyInOut,  expand } from '../animations/app.animation';
 
 
 @Component({
@@ -12,7 +13,15 @@ import { Leader } from '../shared/leader';
   standalone: false,
 
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
+  host: {
+    '[@flyInOut]': 'true',
+    'style': 'display: block;'
+    },
+  animations:[
+    flyInOut(),
+    expand()
+  ]
 })
 export class HomeComponent {
 

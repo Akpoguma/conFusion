@@ -22,13 +22,14 @@ export class DishService {
   ) { }
 
   getDishes(): Observable<Dish[]> {
-    return this.http.get<Dish []>(baseURL + 'dishes')
+    return this.http.get<Dish []>(baseURL + 'dishes').pipe(delay(2000))
       .pipe (catchError(this.processHTTPMsgService.handleError));
     
   }
 
   getDish(id: string): Observable<Dish> {
     return this.http.get<Dish>(baseURL + 'dishes/' + id)
+      .pipe(delay(2000))
       .pipe(catchError(this.processHTTPMsgService.handleError));
   }
 

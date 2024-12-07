@@ -6,14 +6,24 @@ import { Location } from '@angular/common';
 import { switchMap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
 import { Comment } from '../shared/comment';
-
+import { visibility, expand, flyInOut } from '../animations/app.animation';
 
 @Component({
   selector: 'app-dishdetail',
   standalone: false,
 
   templateUrl: './dishdetail.component.html',
-  styleUrl: './dishdetail.component.scss'
+  styleUrl: './dishdetail.component.scss',
+  host: {
+    '[@flyInOut]': 'true',
+    'style': 'display: block;'
+    },
+  animations: [
+    flyInOut(),
+    visibility(),
+    expand()
+  ]
+    
 })
 export class DishdetailComponent {
 
@@ -24,10 +34,12 @@ export class DishdetailComponent {
   dishIds!: string[];
   prev!: string;
   next!: string;
-  dishCopy!:Dish
+  dishCopy!: Dish;
+
+  visibility = 'shown';
 
   commentForm!: FormGroup;
-  comment!: Comment
+  comment!: Comment;
 
   formErrors: Record<string, string> = {
     'author': "",
@@ -53,14 +65,27 @@ export class DishdetailComponent {
     private location: Location,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    @Inject('BaseURL')public BaseURL: string) {
+    @Inject('BaseURL') public BaseURL: string) {
     this.createForm()
   }
 
   ngOnInit() {
-    this.dishService.getDishIds().subscribe((dishIds) => this.dishIds = dishIds);
-    this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-      .subscribe((dish) => { this.dish = dish; this.dishCopy = dish, this.setPrevNext(dish.id) })
+    this.dishService.getDishIds().subscribe((dishIds) => {
+      this.dishIds = dishIds; // Ensure dishIds are loaded first
+      this.route.params
+        .pipe(
+          switchMap((params: Params) => {
+            this.visibility = 'hidden';
+            return this.dishService.getDish(params['id']);
+          })
+        )
+        .subscribe((dish) => {
+          this.dish = dish;
+          this.dishCopy = dish;
+          this.setPrevNext(dish.id); // Call after dishIds is loaded
+          this.visibility = 'shown';
+        });
+    });
   }
 
   goBack(): void {
@@ -110,7 +135,7 @@ export class DishdetailComponent {
     this.comment = this.commentForm.value;
     this.dishCopy.comments.push(this.comment);
     this.dishService.putDish(this.dishCopy)
-    .subscribe((dish)=>{this.dish =dish; this.dishCopy = dish})
+      .subscribe((dish) => { this.dish = dish; this.dishCopy = dish })
     this.commentForm.reset({
       rating: 5,
       comment: '',
