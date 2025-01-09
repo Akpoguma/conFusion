@@ -28,7 +28,7 @@
     </mat-card-header>
     <img
       mat-card-image
-      src="{{ promotion.image }}"
+      src="{{BaseURL+ promotion.image }}"
       alt="{{ promotion.name }}"
     />
     <mat-card-content>
@@ -43,7 +43,7 @@
         <h3>{{ featured.name | uppercase }}</h3>
       </mat-card-title>
     </mat-card-header>
-    <img mat-card-image src="{{  featured.image }}" alt="{{ promotion.name }}" />
+    <img mat-card-image src="{{ BaseURL + featured.image }}" alt="{{ promotion.name }}" />
     <mat-card-content>
       <h4>{{ featured.designation }}</h4>
       <p>{{ featured.description }}</p>

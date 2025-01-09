@@ -38,8 +38,8 @@ export class HomeComponent {
 
   ngOnInit() {
     this.dishservice.getFeaturedDish().subscribe((dish) => this.dish = dish, (errmsg)=> this.errMess =<any> errmsg);
-    this.promotionService.getFeaturedPromotion().then((promotion) => this.promotion = promotion);
-    this.leaderService.getFeaturedLeader().then((featured) => this.featured = featured);
+    this.promotionService.getFeaturedPromotion().subscribe((promotion) => this.promotion = promotion);
+    this.leaderService.getFeaturedLeader().subscribe((featured) => this.featured = featured);
     console.log(this.BaseURL +this.dish.image)
   }
 
