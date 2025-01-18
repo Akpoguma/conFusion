@@ -17,13 +17,13 @@ import { visibility, expand, flyInOut } from '../animations/app.animation';
   host: {
     '[@flyInOut]': 'true',
     'style': 'display: block;'
-    },
+  },
   animations: [
     flyInOut(),
     visibility(),
     expand()
   ]
-    
+
 })
 export class DishdetailComponent {
 
@@ -57,7 +57,6 @@ export class DishdetailComponent {
       'required': 'Comment is required'
     }
   }
-
 
 
 
